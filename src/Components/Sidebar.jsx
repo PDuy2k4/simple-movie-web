@@ -9,11 +9,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 export default function Sidebar() {
-  const windowHeight = window.innerHeight;
+  const minSidebarHeight = window.innerHeight;
   return (
     <div
-      className={`bg-[#21201E] h-screen min-w-[300px] max-w-[500px] flex flex-col justify-between p-8 rounded-br-[8.5rem]`}
-      style={{ minHeight: `${windowHeight}px` }}
+      className={`bg-[#21201E] fixed left-0 top-0 bottom-0 min-w-[300px] z-[4] max-w-[500px] flex flex-col justify-between p-8 rounded-br-[8.5rem] shadow-xl`}
+      style={{ minHeight: minSidebarHeight }}
     >
       <div className="flex flex-col gap-10">
         <div className="flex gap-2 items-end">
