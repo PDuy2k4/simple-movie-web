@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchMovies } from "../utils/fetchMovies";
+import AddFavorite from "../Components/AddFavorite";
 const initialMovies = {
   loading: true,
   movies: {
@@ -13,7 +14,14 @@ const moviesSlices = createSlice({
   name: "movies",
   initialState: initialMovies,
   reducers: {
-    // standard reducer logic, with auto-generated action types per reducer
+    setFavorite: (state, { payload }) => {
+      console.log(payload);
+      const index = state.movies[payload.category].findIndex(
+        (item) => item.id === payload.id
+      );
+      state.movies[payload.category][index].isFavorite =
+        !state.movies[payload.category][index].isFavorite;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -21,10 +29,22 @@ const moviesSlices = createSlice({
         state.loading = true;
       })
       .addCase(fetchMovies.fulfilled, (state, action) => {
-        state.movies.Now_Playing = action.payload[0].data.results;
-        state.movies.Popular = action.payload[1].data.results;
-        state.movies.Top_Rated = action.payload[2].data.results;
-        state.movies.UpComing = action.payload[3].data.results;
+        state.movies.Now_Playing = action.payload[0].data.results.map(
+          (movie) => ({ ...movie, isFavorite: false, category: "Now_Playing" })
+        );
+        state.movies.Popular = action.payload[1].data.results.map((movie) => ({
+          ...movie,
+          category: "Popular",
+          isFavorite: false,
+        }));
+        state.movies.Top_Rated = action.payload[2].data.results.map(
+          (movie) => ({ ...movie, category: "Top_Rated", isFavorite: false })
+        );
+        state.movies.UpComing = action.payload[3].data.results.map((movie) => ({
+          ...movie,
+          category: "UpComing",
+          isFavorite: false,
+        }));
         state.loading = false;
       })
       .addCase(fetchMovies.rejected, (state) => {
@@ -33,4 +53,5 @@ const moviesSlices = createSlice({
       });
   },
 });
+export const { setFavorite } = moviesSlices.actions;
 export default moviesSlices.reducer;

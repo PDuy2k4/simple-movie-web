@@ -7,17 +7,14 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "../Styles/customSliderStyle.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchMovies } from "../utils/fetchMovies";
+import { useSelector } from "react-redux";
 import LoadingSkeleton from "../Components/LoadingSkeleton";
 import Movie from "../Components/Movie";
-export default function Home() {
+function Home() {
   const moviesState = useSelector((state) => state.MoviesReducer);
-  const dispatch = useDispatch();
   const defaultSkeletons = new Array(4).fill(0);
   const [clientWidth, setClientWidth] = useState(window.innerWidth);
   useEffect(() => {
-    dispatch(fetchMovies());
     const handleResize = () => {
       setClientWidth(window.innerWidth);
     };
@@ -31,20 +28,20 @@ export default function Home() {
     <Main is_home>
       <div className="px-4 py-8 flex flex-col gap-3">
         {typeMovies
-          ? typeMovies.map((type) => (
-              <div>
+          ? typeMovies.map((type, index) => (
+              <div key={index}>
                 <h2 className="text-2xl font-bold mb-2">
                   {type.split("_").join(" ")}
                 </h2>
                 {moviesState.loading ? (
                   <div className="flex justify-between gap-3">
                     {defaultSkeletons.map((_, index) => (
-                      <LoadingSkeleton key={index} />
+                      <LoadingSkeleton is_home key={index} />
                     ))}
                   </div>
                 ) : (
                   <div
-                    className="overflow-hidden"
+                    className="overflow-hidden min-w-[900px]"
                     style={{ maxWidth: `${clientWidth - 350}px` }}
                   >
                     <Swiper
@@ -57,7 +54,7 @@ export default function Home() {
                     >
                       {moviesState.movies[type].map((movie, index) => (
                         <SwiperSlide key={index}>
-                          <Movie key={movie.id} movie={movie} />
+                          <Movie movie={movie} />
                         </SwiperSlide>
                       ))}
                     </Swiper>
@@ -70,3 +67,4 @@ export default function Home() {
     </Main>
   );
 }
+export default React.memo(Home);

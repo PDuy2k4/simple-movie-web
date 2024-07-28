@@ -15,15 +15,17 @@ const initialBanner = {
   video: false,
   vote_average: 7.568,
   vote_count: 961,
+  isFavorite: false,
+  category: "Now_Playing",
 };
 const bannerSlices = createSlice({
   name: "banner",
   initialState: initialBanner,
   reducers: {
-    setbanner: (state, action) => {
+    setBanner: (state, action) => {
       return action.payload;
     },
   },
 });
-export const { setbanner } = bannerSlices.actions;
+export const { setBanner } = bannerSlices.actions;
 export default bannerSlices.reducer;
