@@ -9,6 +9,16 @@ import Error from "./Pages/Error";
 import ErrorBoundary from "./utils/ErrorBoundary";
 function App() {
   const dispatch = useDispatch();
+  const deviceWidth = window.innerWidth;
+  if (deviceWidth < 1024) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <h2 className="text-4xl text-red-500 font-bold">
+          Please Try With Laptop or PC
+        </h2>
+      </div>
+    );
+  }
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
