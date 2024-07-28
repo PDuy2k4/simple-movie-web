@@ -21,7 +21,7 @@ function Detail() {
     (movie) => movie.id.toString() === param.get("id")
   );
   console.log(currentFavoriteMovie);
-  currentMovie?.genres.map((genre) => {
+  currentMovie?.genres?.map((genre) => {
     genres += genre.name + " ";
   });
   useEffect(() => {
@@ -54,7 +54,7 @@ function Detail() {
 
               <img
                 className="max-w-full min-w-[250px] min-h-[400px] object-cover"
-                src={`https://image.tmdb.org/t/p/w500/${currentMovie?.belongs_to_collection.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w500/${currentMovie?.poster_path}`}
                 alt=""
               />
             </div>
@@ -71,7 +71,7 @@ function Detail() {
                 Production Companies:
               </h3>
               <div className="flex items-center gap-5">
-                {currentMovie?.production_companies.map((company, idx) => (
+                {currentMovie?.production_companies?.map((company, idx) => (
                   <div
                     className="max-w-[90px] aspect-square overflow-hidden"
                     key={idx}
