@@ -18,15 +18,19 @@ export default function Header(props) {
   const allNames = useMemo(() => getMovieNames(allMovies), [allMovies]);
   const matchNames = new Map();
   const navigate = useNavigate();
-  allNames
-    .filter(({ name }) =>
-      name.toLowerCase().split(" ").includes(searchValue.toLowerCase())
-    )
-    .forEach((movie) => {
-      if (!matchNames.has(movie.name)) {
-        matchNames.set(movie.name, movie);
-      }
-    });
+  searchValue != "" &&
+    allNames
+      .filter(({ name }) =>
+        name
+          .toLowerCase()
+          .split(" ")
+          .some((item) => item.includes(searchValue.toLowerCase()))
+      )
+      .forEach((movie) => {
+        if (!matchNames.has(movie.name)) {
+          matchNames.set(movie.name, movie);
+        }
+      });
   const matchUniqueNames = Array.from(matchNames.values());
   const handlSearch = (searchParam) => {
     if (searchParam) {
@@ -80,7 +84,7 @@ export default function Header(props) {
             </button>
           </div>
           <div
-            className={`absolute top-14 max-h-[200px] left-0 right-0 bg-white rounded-3xl shadow-white overflow-hidden ${
+            className={`absolute top-14 max-h-[200px] left-0 right-0 bg-white rounded-3xl shadow-white overflow-auto ${
               !(matchUniqueNames.length > 0) && "hidden"
             }`}
           >
